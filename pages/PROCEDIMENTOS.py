@@ -33,23 +33,25 @@ def venda_maquina():
     import streamlit as st
 
     st.markdown(f"# {list(page_names_to_funcs.keys())[2]} 🖥")
-    st.write("---")
     """
+    ---
     ### 1 – Instalação limpa do Windows 10 ou 11 no SSD/HDD. 
     `(consulte o guia INSTALAÇÃO WINDOWS)`
 
     ### 2 – Instalação dos programas padrão 
     `(consulte o guia PROGRAMAS PADRÃO)`
     """
-    st.code('⚠️ IMPORTANTE: ENVIAR COM CABO DE FORÇA PADRÃO NOVO. ⚠️')
+    st.info('⚠️ IMPORTANTE: ENVIAR COM CABO DE FORÇA PADRÃO NOVO. ⚠️')
     """
     ---
     ### ATENÇÃO: CLIENTES COM LICENÇAS ADQUIRIDAS. 📋
 
-    - Instalação do Office 365 caso o cliente possua licença 
+    - Instalação do Office 365 caso o cliente possua licença
+    
     `(consulte o guia OFFICE 365)`
 
     - Instalação do Antivírus BitDender caso o cliente possua licença 
+    
     `(consulte o guia INSTALAÇÃO BITDEFENDER)`
     """
     
