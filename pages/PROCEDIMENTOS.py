@@ -59,14 +59,9 @@ def venda_maquina():
 def plotting_demo():
     import streamlit as st
 
-    st.markdown(f'# {list(page_names_to_funcs.keys())[1]} ')
-    st.write(
-        """
-        This demo illustrates a combination of plotting and animation with
-Streamlit. We're generating a bunch of random numbers in a loop for around
-5 seconds. Enjoy!
-"""
-    )
+    st.title("GUIA DE INSTALAÇÃO DO BITDEFENDER PARA EMPRESAS")
+
+    st.info('Localize o Patach de Instalação: “BitDefender-NOME-DA-EMPRESA.exe”')
 
 def data_frame_demo():
     import streamlit as st

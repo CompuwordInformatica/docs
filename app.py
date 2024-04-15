@@ -4,7 +4,7 @@ st.sidebar.radio('Choose:',[1,2])
 
 st.title("Hello World")
 
-st.markdown('_Markdown_') # see #*
+st.markdown('_Markdown_')
 
 st.header('My header')
 
