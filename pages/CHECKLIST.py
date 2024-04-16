@@ -19,43 +19,62 @@ def especificacoes():
 
         },
         "memorias": {},
-        "sistema_operacional": [],
-        "armazenamento": [],
-        "placa_de_video": [],
+        "sistema_operacional": {},
+        "armazenamento": {},
+        "placa_video": {},
         "placa_mae": {
             "fabricante": "",
             "modelo": "",
             "versao_bios": ""
-        }
+        },
+        "voltagem": 110
     }
+
+    def salvar_dados():
+        """
+            ESPECIFICAÇÕES ---------------------------------
+            PROCESSADOR:: 
+        """
+        for i in range(len(informacoes['processadores'])):
+            f'{informacoes["processadores"]["fabricante"]} {informacoes["processadores"][f"processador{num}"]["modelo"]} {informacoes["processadores"][f"processador{num}"]["ghz"]}GHz'
+        """
+            MEMÓRIA:: 
+            SISTEMA OPERACIONAL;: 
+            SERIAL::
+            ARMAZENAMENTO:: 
+            PLACA DE VÍDEO::
+            PLACA MÃE:: 
+            OBSERVAÇÕES::
+        """
 
     with st.expander("DADOS"):
         dados_col1, dados_col2, dados_col3 = st.columns(3)
 
         with dados_col1:
             dados_serial_number = st.text_input('DADOS - SERIAL NUMBER', '')
-            informacoes['dados']['dados_serial_number'] = dados_serial_number
+
 
         with dados_col2:
             dados_modelo = st.text_input('DADOS - MODELO', '')
-            informacoes['dados']['dados_modelo'] = dados_modelo
+
             
         with dados_col3:
             dados_service_tag = st.text_input('DADOS - SERVICE TAG', '')
-            informacoes['dados']['dados_service_tag'] = dados_service_tag
+
+        informacoes['dados']['dados_serial_number'] = dados_serial_number
+        informacoes['dados']['dados_modelo'] = dados_modelo
+        informacoes['dados']['dados_service_tag'] = dados_service_tag
 
     with st.expander("PROCESSADORES"):
         num_processors = st.number_input("Quantidade de Processadores:", min_value=0, value=0)
 
         if num_processors:
-            processador_marca = st.radio(
+            processador_fabricante = st.radio(
                 "MARCA DO PROCESSADOR:",
                 ["INTEL", "AMD", "OUTRO"],
                 index=None,
-                key="processador_marca"
+                key="processador_fabricante"
             )
-            informacoes['processadores']['marca'] = processador_marca
-            st.write(informacoes)
             
             for num in range(num_processors):
                 informacoes['processadores'][f'processador{num}'] = {}
@@ -65,11 +84,16 @@ def especificacoes():
                     processador_col1, processador_col2 = st.columns(2)
                     with processador_col1:
                         processador_modelo = st.text_input("MODELO DO PROCESSADOR", key=f"processador_modelo{num}")
-                        informacoes['processadores'][f'processador{num}']['modelo'] = processador_modelo
+                        
 
                     with processador_col2:
-                        processador_ghz = st.number_input("MODELO DO PROCESSADOR", key=f"processador_ghz{num}")
-                        informacoes['processadores'][f'processador{num}']['ghz'] = processador_ghz
+                        processador_ghz = st.number_input("GHz", key=f"processador_ghz{num}")
+
+                    informacoes['processadores']['fabricante'] = processador_fabricante
+                    informacoes['processadores'][f'processador{num}']['modelo'] = processador_modelo
+                    informacoes['processadores'][f'processador{num}']['ghz'] = processador_ghz
+                    st.write(informacoes)
+                        
                     
                 if num_processors > 1:
                     remove = st.button(f"Remover Processador {num + 1}")
@@ -84,10 +108,10 @@ def especificacoes():
 
         num_memories = st.number_input("Quantidade de Memórias:", min_value=0, value=0)
 
-        memorias_ddr = st.selectbox(
+        if num_memories:
+            memorias_ddr = st.selectbox(
             'QUAL DDR?',
             ('DDR1', 'DDR2', 'DDR3', 'DDR4', 'DDR5'), index=None)
-        informacoes['memorias']['ddr'] = memorias_ddr
         
         for num in range(num_memories):
             expand = st.checkbox(f"MEMORIA {num + 1}")
@@ -100,15 +124,21 @@ def especificacoes():
                     memorias_gb = st.selectbox(
                     'GB DE MEMÓRIA',
                     ('1', '2', '4', '8', '16', '32', '64'), index=None, key=f"memorias_gb{num}")
-                    informacoes['memorias'][f'memoria{num}']['gb'] = memorias_gb
+                    
 
                 with memorias_col2:
                     memoria_marca = st.text_input('MARCA', '', key=f"memorias_marca{num}")
-                    informacoes['memorias'][f'memoria{num}']['marca'] = memoria_marca    
+                       
 
                 with memorias_col3:
-                    memoria_frequencia = st.number_input('FREQUENCIA', '', key=f"memoria_frequencia{num}")
-                    informacoes['memorias'][f'memoria{num}']['frequencia'] = memoria_frequencia 
+                    memoria_frequencia = st.number_input('FREQUENCIA', min_value=0, value=0, key=f"memoria_frequencia{num}")
+                    
+
+                informacoes['memorias']['ddr'] = memorias_ddr
+                informacoes['memorias'][f'memoria{num}']['gb'] = memorias_gb
+                informacoes['memorias'][f'memoria{num}']['marca'] = memoria_marca 
+                informacoes['memorias'][f'memoria{num}']['frequencia'] = memoria_frequencia
+                
                     
                 if num_memories > 1:
                     remove = st.button(f"Remover Memoria {num + 1}")
@@ -116,7 +146,10 @@ def especificacoes():
                     if remove:
                         # Aqui, você pode remover o processador da lista ou resetar os campos
                         pass
-                        
+
+            st.write(informacoes)
+
+
             st.write("-------------")        
 
     with st.expander("SISTEMA OPERACIONAL"):
@@ -126,6 +159,7 @@ def especificacoes():
             expand = st.checkbox(f"SISTEMA OPERACIONAL {num + 1}")
             
             if expand:
+                informacoes['sistema_operacional'][f'so{num}'] = {}
                 sistema_operacional_col1, sistema_operacional_col2 = st.columns(2)
 
                 with sistema_operacional_col1:
@@ -159,7 +193,8 @@ def especificacoes():
                                     index=None,
                                     placeholder="Selecione a versão do Windows...",
                                     key=f"versao_sistema{num}"
-                                )
+                                )           
+                                informacoes['sistema_operacional'][f'so{num}']['versao_sistema'] = versao_sistema
                         elif sistema_operacional == "MacOS":
                             tipo_sistema = st.selectbox(
                                 "QUAL MACOS?",
@@ -173,6 +208,10 @@ def especificacoes():
                             )
                         else:
                             tipo_sistema = st.text_input('DISTRIBUIÇÃO:', '', key=f"tipo_sistema{num}")
+                    
+                    informacoes['sistema_operacional'][f'so{num}']['sistema_operacional'] = sistema_operacional
+                    informacoes['sistema_operacional'][f'so{num}']['tipo_sistema'] = tipo_sistema
+                    st.write(informacoes)
 
 
     with st.expander("ARMAZENAMENTO"):
@@ -182,6 +221,7 @@ def especificacoes():
             expand = st.checkbox(f"DISCO DE ARMAZENAMENTO {num + 1}")
             
             if expand:
+                informacoes['armazenamento'][f'disco{num}'] = {}
                 armazenamento_col1, armazenamento_col2, armazenamento_col3 = st.columns(3)
                 armazenamento_col4, armazenamento_col5 = st.columns(2)
         
@@ -210,7 +250,15 @@ def especificacoes():
                     capacidade_disco = st.number_input("CAPACIDADE:", value=None, placeholder="Escreva em GB...", key=f"capacidade_disco{num}")
 
                 with armazenamento_col5:
-                    livre_disco = st.number_input("ESPAÇO LIVRE:", value=None, placeholder="Escreva em GB...", key=f"livre_disco{num}")
+                    espaco_livre = st.number_input("ESPAÇO LIVRE:", value=None, placeholder="Escreva em GB...", key=f"espaco_livre{num}")
+                
+                informacoes['armazenamento'][f'disco{num}']['tipo_disco'] = tipo_disco
+                informacoes['armazenamento'][f'disco{num}']['modelo_disco'] = modelo_disco
+                informacoes['armazenamento'][f'disco{num}']['estado_disco'] = estado_disco
+                informacoes['armazenamento'][f'disco{num}']['capacidade_disco'] = capacidade_disco
+                informacoes['armazenamento'][f'disco{num}']['espaco_livre'] = espaco_livre
+                st.write(informacoes)
+
 
 
     with st.expander("PLACA DE VÍDEO"):
@@ -220,6 +268,7 @@ def especificacoes():
             expand = st.checkbox(f"PLACA DE VIDEO {num + 1}")
 
             if expand:
+                informacoes['placa_video'][f'placa{num}'] = {}
                 placa_de_video_col1, placa_de_video_col2 = st.columns(2)
 
                 with placa_de_video_col1:
@@ -231,7 +280,9 @@ def especificacoes():
 
                 with placa_de_video_col2:
                     modelo_placa_video = st.text_input('MODELO DA PLACA DE VÍDEO:', '', key=f"modelo_placa_video{num}")
-            
+
+                informacoes['placa_video'][f'placa{num}']['fabricante'] = fabricante_placa
+                informacoes['placa_video'][f'placa{num}']['modelo_placa_video'] = modelo_placa_video
         
 
     with st.expander("PLACA MÃE"):
@@ -243,9 +294,21 @@ def especificacoes():
         )
 
         placa_mae_modelo = st.text_input('MODELO DA PLACA MÃE:', '')
-        placa_mae_bios = st.number_input("VERSÃO DA BIOS:", value=None, placeholder="Escreva a versão...")
+        placa_mae_versao_bios = st.text_input("VERSÃO DA BIOS:", '', placeholder="Escreva a versão...")
 
+        informacoes['placa_mae']['fabricante'] = placa_mae_fabricante
+        informacoes['placa_mae']['modelo'] = placa_mae_modelo
+        informacoes['placa_mae']['versao_bios'] = placa_mae_versao_bios
+        st.write(informacoes)
 
+    voltagem = st.radio(
+    "SELECIONE A VOLTAGEM DA FONTE NA ENTRADA DO EQUIPAMENTO",
+    [110, 220],
+    index=0,
+    )
+
+    informacoes['voltagem'] = voltagem
+    st.write(informacoes)
     st.divider()
 
     button_col1, button_col2 = st.columns(2, gap="small")
@@ -255,7 +318,7 @@ def especificacoes():
     
 
     with button_col2:
-        st.button("SALVAR", type="primary")  
+        st.button("SALVAR", type="primary", on_click=salvar_dados())  
          
 
 page_names_to_funcs = {
