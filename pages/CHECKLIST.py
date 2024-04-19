@@ -30,22 +30,8 @@ def especificacoes():
         "voltagem": 110
     }
 
-    def salvar_dados():
-        """
-            ESPECIFICAÇÕES ---------------------------------
-            PROCESSADOR:: 
-        """
-        for i in range(len(informacoes['processadores'])):
-            f'{informacoes["processadores"]["fabricante"]} {informacoes["processadores"][f"processador{num}"]["modelo"]} {informacoes["processadores"][f"processador{num}"]["ghz"]}GHz'
-        """
-            MEMÓRIA:: 
-            SISTEMA OPERACIONAL;: 
-            SERIAL::
-            ARMAZENAMENTO:: 
-            PLACA DE VÍDEO::
-            PLACA MÃE:: 
-            OBSERVAÇÕES::
-        """
+    def gerar_codigo():
+        st.code(informacoes)
 
     with st.expander("DADOS"):
         dados_col1, dados_col2, dados_col3 = st.columns(3)
@@ -318,8 +304,7 @@ def especificacoes():
     
 
     with button_col2:
-        st.button("SALVAR", type="primary", on_click=salvar_dados())  
-         
+        st.button("SALVAR", type="primary", on_click=gerar_codigo)  
 
 page_names_to_funcs = {
     "ESPECIFICAÇÕES": especificacoes,
